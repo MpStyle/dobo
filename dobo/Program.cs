@@ -1,11 +1,9 @@
-﻿using dobo.Command;
-using dobo.Extension;
+﻿using dobo.Extension;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Telegram.Bot;
-using Telegram.Bot.Types;
 using MessageHandler = dobo.telegram.Book.MessageHandler;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -20,7 +18,10 @@ using var host = builder.Build();
 
 RunBot(host.Services, "DoBo - Lifetime");
 
+await host.AddGarbageJob();
+
 await host.RunAsync();
+
 return;
 
 static void RunBot(IServiceProvider hostProvider, string lifetime)

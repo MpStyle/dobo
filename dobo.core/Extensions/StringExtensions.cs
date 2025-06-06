@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace dobo.core.Extensions;
 
-public static class StringExtension
+public static class StringExtensions
 {
     public static bool IsNullOrEmpty([NotNullWhen(false)] this string s)
     {

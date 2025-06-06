@@ -1,4 +1,5 @@
 using System.Reflection;
+using dobo.core.Book;
 using dobo.core.Extensions;
 using dobo.telegram.Command;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +17,7 @@ public static class IoCTelegramBotClientExtension
         services
             .AddSingleton(sp =>
             {
-                var token = sp.GetRequiredService<IConfiguration>().GetString("telegram:token");
+                var token = sp.GetRequiredService<IConfiguration>().GetString(AppSettingsKey.TelegramToken);
                 var bot = new TelegramBotClient(token);
 
                 var commands = sp.GetServices<ITelegramCommandHandler>();
@@ -43,31 +44,20 @@ public static class IoCTelegramBotClientExtension
         return services;
     }
 
-    public static IServiceCollection AddTelegramCommandHandler(this IServiceCollection services, Assembly assembly)
+    public static IServiceCollection AddTelegramCommandHandlers(this IServiceCollection services, Assembly assembly)
     {
-        return services.AddTelegramCommandHandler([assembly]);
+        return services.AddTelegramCommandHandlers([assembly]);
     }
 
-    public static IServiceCollection AddTelegramCommandHandler(this IServiceCollection services, Assembly[] assemblies)
+    public static IServiceCollection AddTelegramCommandHandlers(this IServiceCollection services, Assembly[] assemblies)
     {
-        foreach (var assembly in assemblies)
-        {
-            services.InitServiceCollection(assembly, typeof(ITelegramCommandHandler));
-        }
-
-        return services;
+        return services.InitServiceCollection(assemblies, typeof(ITelegramCommandHandler));
     }
 
     private static IServiceCollection InitServiceCollection(this IServiceCollection services,
-        Assembly containerAssembly, Type serviceType)
+        Assembly[] assemblies, Type serviceType)
     {
-        var fullname = serviceType.FullName;
-        if (fullname.IsNullOrEmpty())
-        {
-            return services;
-        }
-
-        var handlers = GetHandlers(containerAssembly, serviceType);
+        var handlers = assemblies.GetTypes(serviceType);
         var helpCommandHandlerExists = false;
 
         foreach (var handler in handlers)
@@ -84,27 +74,5 @@ public static class IoCTelegramBotClientExtension
         }
 
         return services;
-    }
-
-    private static Type[] GetHandlers(Assembly containerAssembly, Type serviceType)
-    {
-        var fullname = serviceType.FullName;
-        if (fullname.IsNullOrEmpty())
-        {
-            return [];
-        }
-
-        var handlers = containerAssembly
-            .GetExportedTypes()
-            .Where(type => type.IsClass && type is {IsAbstract: false, IsGenericType: false, IsNested: false} &&
-                           IsDerivedFromAbstractBase(type, fullname))
-            .ToArray();
-
-        return handlers;
-    }
-
-    private static bool IsDerivedFromAbstractBase(Type type, string baseFullName)
-    {
-        return type.FullName == baseFullName || type.GetInterfaces().Any(t => t.FullName == baseFullName);
     }
 }

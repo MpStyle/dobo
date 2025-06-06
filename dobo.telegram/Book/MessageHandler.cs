@@ -1,5 +1,7 @@
 using System.Text.RegularExpressions;
+using dobo.core.Book;
 using dobo.telegram.Command;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -15,8 +17,11 @@ public partial class MessageHandler
     private readonly TelegramBotClient bot;
     private readonly Dictionary<string, Func<string, Message, UpdateType, string>> commandHandlers = new();
     private readonly ILogger<MessageHandler> logger;
+    private readonly string[] receipts;
 
-    public MessageHandler(TelegramBotClient bot, IEnumerable<ITelegramCommandHandler> telegramCommandHandlers, IHelpCommandHandler helpCommand, ILogger<MessageHandler> logger)
+    public MessageHandler(IConfiguration configuration, TelegramBotClient bot,
+        IEnumerable<ITelegramCommandHandler> telegramCommandHandlers, IHelpCommandHandler helpCommand,
+        ILogger<MessageHandler> logger)
     {
         this.bot = bot;
         this.logger = logger;
@@ -25,8 +30,9 @@ public partial class MessageHandler
         {
             commandHandlers.Add(telegramCommandHandler.Command, telegramCommandHandler.Handle);
         }
-        
+
         commandHandlers.Add(helpCommand.Command, helpCommand.Handle);
+        this.receipts = configuration.GetSection(AppSettingsKey.TelegramReceipts).Get<string[]>() ?? [];
     }
 
     public async Task HandleMessage(Message msg, UpdateType type)
@@ -52,11 +58,13 @@ public partial class MessageHandler
                 {
                     await bot.SendMessage(msg.Chat, responseText);
 
-                    this.logger.LogInformation("Sent {Type} \'{ResponseText}\' in {MsgChat}", type, responseText, msg.Chat);
+                    this.logger.LogInformation("Sent {Type} \'{ResponseText}\' in {MsgChat}", type, responseText,
+                        msg.Chat);
                 }
                 else
                 {
-                    this.logger.LogInformation("No message to send for command \'{Command}\' in {MsgChat}", command, msg.Chat);
+                    this.logger.LogInformation("No message to send for command \'{Command}\' in {MsgChat}", command,
+                        msg.Chat);
                 }
             }
         }

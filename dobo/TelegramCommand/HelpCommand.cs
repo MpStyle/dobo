@@ -2,7 +2,7 @@ using dobo.telegram.Command;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace dobo.Command;
+namespace dobo.TelegramCommand;
 
 public class HelpCommand : IHelpCommandHandler
 {

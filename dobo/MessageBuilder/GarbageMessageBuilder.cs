@@ -1,26 +1,21 @@
+using dobo.core.Book;
 using dobo.core.Extensions;
-using dobo.telegram.Command;
+using dobo.core.MessageBuilder;
 using dobo.waste.collection;
 using dobo.waste.collection.Entities;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
-namespace dobo.Command;
+namespace dobo.MessageBuilder;
 
-public class GarbageCommand(
+public class GarbageMessageBuilder(
     IEnumerable<IGarbageScraper> garbageScrapers,
-    IConfiguration configuration,
-    ILogger<GarbageCommand> logger) : ITelegramCommandHandler
+    IConfiguration configuration
+) : IMessageBuilder
 {
     private readonly Dictionary<string, GarbageDay[]> garbageDaysCache = new();
-    private readonly string defaultCity = configuration.GetString("wasteCollection:defaultCity");
+    private readonly string defaultCity = configuration.GetString(AppSettingsKey.WasteCollectionDefaultCity);
 
-    public string Command { get; } = "garbage";
-    public string Description { get; } = "Get information about when to take out the trash";
-
-    public string Handle(string args, Message msg, UpdateType type)
+    public string? Build(string args)
     {
         var city = args?.Trim().ToLowerInvariant().Split(" ").FirstOrDefault();
         if (string.IsNullOrEmpty(city))
@@ -47,7 +42,7 @@ public class GarbageCommand(
 
         if (dayGarbage != null)
         {
-            return "Tomorrow" + $": {string.Join(", ", dayGarbage.Types.Select(t=>t.ToString()))}\n";
+            return "Tomorrow" + $": {string.Join(", ", dayGarbage.Types.Select(t => t.ToString()))}\n";
         }
 
         return null;
