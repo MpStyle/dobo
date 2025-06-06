@@ -51,13 +51,13 @@ public static class IoCTelegramBotClientExtension
 
     public static IServiceCollection AddTelegramCommandHandlers(this IServiceCollection services, Assembly[] assemblies)
     {
-        return services.InitServiceCollection(assemblies, typeof(ITelegramCommandHandler));
+        return services.InitServiceCollection<ITelegramCommandHandler>(assemblies);
     }
 
-    private static IServiceCollection InitServiceCollection(this IServiceCollection services,
-        Assembly[] assemblies, Type serviceType)
+    private static IServiceCollection InitServiceCollection<T>(this IServiceCollection services,
+        Assembly[] assemblies)
     {
-        var handlers = assemblies.GetTypes(serviceType);
+        var handlers = assemblies.GetImplementationTypes<T>();
         var helpCommandHandlerExists = false;
 
         foreach (var handler in handlers)
@@ -69,7 +69,7 @@ public static class IoCTelegramBotClientExtension
             }
             else
             {
-                services.Add(new ServiceDescriptor(serviceType, handler, ServiceLifetime.Singleton));
+                services.Add(new ServiceDescriptor(typeof(T), handler, ServiceLifetime.Singleton));
             }
         }
 

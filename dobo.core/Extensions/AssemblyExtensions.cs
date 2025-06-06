@@ -4,15 +4,20 @@ namespace dobo.core.Extensions;
 
 public static class AssemblyExtensions
 {
-    public static Type[] GetTypes(this Assembly[] assemblies, Type serviceType)
+    public static Type[] GetImplementationTypes<T>(this Assembly assembly)
     {
-        var fullname = serviceType.FullName;
+        return new[] {assembly}.GetImplementationTypes<T>();
+    }
+
+    public static Type[] GetImplementationTypes<T>(this Assembly[] assemblies)
+    {
+        var fullname = typeof(T).FullName;
         if (fullname.IsNullOrEmpty())
         {
             return [];
         }
 
-        var handlers =assemblies.SelectMany(assembly => assembly.GetExportedTypes())
+        var handlers = assemblies.SelectMany(assembly => assembly.GetExportedTypes())
             .Where(type => type.IsClass && type is {IsAbstract: false, IsGenericType: false, IsNested: false} &&
                            IsDerivedFromAbstractBase(type, fullname))
             .ToArray();

@@ -29,8 +29,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\dobo.core\dobo.core.csproj" />
+      <ProjectReference Include="..\dobo.scheduler\dobo.scheduler.csproj" />
       <ProjectReference Include="..\dobo.telegram\dobo.telegram.csproj" />
-      <ProjectReference Include="..\dobo.waste.collection\dobo.waste.collection.csproj" />
+      <ProjectReference Include="..\dobo.waste.scraper\dobo.waste.scraper.csproj" />
     </ItemGroup>
 
 </Project>

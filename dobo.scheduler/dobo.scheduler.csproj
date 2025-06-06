@@ -9,14 +9,18 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
       <PackageReference Include="Quartz" Version="3.14.0" />
+      <PackageReference Include="Telegram.Bot" Version="22.5.1" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\dobo.core\dobo.core.csproj" />
+      <ProjectReference Include="..\dobo.waste.scraper\dobo.waste.scraper.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Job\" />
+      <Reference Include="Microsoft.Extensions.Hosting.Abstractions">
+        <HintPath>..\..\..\.dotnet\shared\Microsoft.AspNetCore.App\9.0.2\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

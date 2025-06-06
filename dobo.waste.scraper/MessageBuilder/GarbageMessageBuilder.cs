@@ -1,11 +1,10 @@
 using dobo.core.Book;
 using dobo.core.Extensions;
 using dobo.core.MessageBuilder;
-using dobo.waste.collection;
 using dobo.waste.collection.Entities;
 using Microsoft.Extensions.Configuration;
 
-namespace dobo.MessageBuilder;
+namespace dobo.waste.collection.MessageBuilder;
 
 public class GarbageMessageBuilder(
     IEnumerable<IGarbageScraper> garbageScrapers,
@@ -40,7 +39,7 @@ public class GarbageMessageBuilder(
         var (year, month, day) = DateTime.Now.AddDays(1);
         var dayGarbage = garbageDays.FirstOrDefault(g => g.Month == month && g.Day == day && g.Year == year);
 
-        if (dayGarbage != null)
+        if (dayGarbage != null && dayGarbage.Types.Length != 0)
         {
             return "Tomorrow" + $": {string.Join(", ", dayGarbage.Types.Select(t => t.ToString()))}\n";
         }

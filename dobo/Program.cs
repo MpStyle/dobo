@@ -1,4 +1,5 @@
 ﻿using dobo.Extension;
+using dobo.scheduler.Job;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,7 +19,7 @@ using var host = builder.Build();
 
 RunBot(host.Services, "DoBo - Lifetime");
 
-await host.AddGarbageJob();
+await PadovaEstGroupGarbageJob.ScheduleJob(host);
 
 await host.RunAsync();
 

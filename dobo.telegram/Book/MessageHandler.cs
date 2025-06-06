@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using dobo.core.Book;
+using dobo.core.Extensions;
 using dobo.telegram.Command;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -32,17 +33,27 @@ public partial class MessageHandler
         }
 
         commandHandlers.Add(helpCommand.Command, helpCommand.Handle);
-        this.receipts = configuration.GetSection(AppSettingsKey.TelegramReceipts).Get<string[]>() ?? [];
+        this.receipts = configuration.GetStringArray(AppSettingsKey.TelegramRecipients);
     }
 
     public async Task HandleMessage(Message msg, UpdateType type)
     {
         if (msg.Text is null)
         {
+            logger.LogWarning("Empty message received from {Username}", msg.Chat.Username);
             return;
         }
 
-        Console.WriteLine($"Received {type} '{msg.Text}' in {msg.Chat}");
+        if (this.receipts.Any(receipt =>
+                receipt.Equals(msg.Chat.Username, StringComparison.InvariantCultureIgnoreCase)) == false)
+        {
+            logger.LogWarning("Invalid sender \'{Sender}\' for message \'{MsgText}\'",
+                msg.Chat.Title ?? msg.Chat.Username,
+                msg.Text);
+            return;
+        }
+
+        logger.LogInformation("Received {Type} \'{MsgText}\' in {MsgChat}", type, msg.Text, msg.Chat);
 
         var commandMatch = CommandRegex().Match(msg.Text);
 
@@ -54,7 +65,7 @@ public partial class MessageHandler
                 var args = msg.Text.Replace($"/{command}", string.Empty).Trim();
                 var responseText = handler(args, msg, type);
 
-                if (responseText != null)
+                if (string.IsNullOrEmpty(responseText) == false)
                 {
                     await bot.SendMessage(msg.Chat, responseText);
 

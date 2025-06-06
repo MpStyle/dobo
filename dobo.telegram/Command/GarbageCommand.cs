@@ -1,9 +1,8 @@
-using dobo.MessageBuilder;
-using dobo.telegram.Command;
+using dobo.waste.collection.MessageBuilder;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace dobo.TelegramCommand;
+namespace dobo.telegram.Command;
 
 public class GarbageCommand(GarbageMessageBuilder garbageMessageBuilder) : ITelegramCommandHandler
 {
@@ -12,6 +11,7 @@ public class GarbageCommand(GarbageMessageBuilder garbageMessageBuilder) : ITele
 
     public string Handle(string args, Message msg, UpdateType type)
     {
-        return garbageMessageBuilder.Build(args);
+        var message = garbageMessageBuilder.Build(args);
+        return string.IsNullOrEmpty(message) ? "No garbage for tomorrow" : message;
     }
 }

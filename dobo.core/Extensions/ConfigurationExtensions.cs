@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System;
 using Microsoft.Extensions.Configuration;
 
 namespace dobo.core.Extensions;
@@ -45,32 +44,46 @@ public static class ConfigurationExtensions
         }
     }
 
-    // public static string[] GetStringArray(this IConfiguration configuration, string key,
-    //     string[] defaultValue = default)
-    // {
-    //     try
-    //     {
-    //         var section = configuration.GetSection(key);
-    //         return section.Get<string[]>() ?? defaultValue;
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Debug.WriteLine(ex);
-    //         return defaultValue;
-    //     }
-    // }
-    //
-    // public static int[] GetIntArray(this IConfiguration configuration, string key, int[] defaultValue = default)
-    // {
-    //     try
-    //     {
-    //         var section = configuration.GetSection(key);
-    //         return section.Get<int[]>() ?? defaultValue;
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Debug.WriteLine(ex);
-    //         return defaultValue;
-    //     }
-    // }
+    public static string[] GetStringArray(this IConfiguration configuration, string key,
+        string[] defaultValue = default)
+    {
+        try
+        {
+            var section = configuration.GetSection(key);
+            return section.Get<string[]>() ?? defaultValue;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            return defaultValue;
+        }
+    }
+    
+    public static int[] GetIntArray(this IConfiguration configuration, string key, int[] defaultValue = default)
+    {
+        try
+        {
+            var section = configuration.GetSection(key);
+            return section.Get<int[]>() ?? defaultValue;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            return defaultValue;
+        }
+    }
+    
+    public static long[] GetLongArray(this IConfiguration configuration, string key, long[] defaultValue = default)
+    {
+        try
+        {
+            var section = configuration.GetSection(key);
+            return section.Get<long[]>() ?? defaultValue;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            return defaultValue;
+        }
+    }
 }

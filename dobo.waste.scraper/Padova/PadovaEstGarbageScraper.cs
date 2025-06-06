@@ -1,9 +1,10 @@
 using dobo.waste.collection.Entities;
 using ImageMagick;
+using Microsoft.Extensions.Logging;
 
 namespace dobo.waste.collection.Padova;
 
-public class PadovaGarbageScraper : IGarbageScraper
+public class PadovaEstGarbageScraper(ILogger<PadovaEstGarbageScraper> logger) : IGarbageScraper
 {
     private static readonly Dictionary<string, GarbageType> ColorToGarbageType = new()
     {
@@ -16,7 +17,7 @@ public class PadovaGarbageScraper : IGarbageScraper
         {"#FFFFFFFF", GarbageType.None}
     };
 
-    public string City { get; } = "Padova";
+    public string City { get; } = "Padova Est";
 
     public IEnumerable<GarbageDay> Run()
     {
@@ -30,6 +31,8 @@ public class PadovaGarbageScraper : IGarbageScraper
         };
 
         using var images = new MagickImageCollection();
+        
+        logger.LogInformation("Reading PDF file: {PdfPath}", pdfPath);
         images.Read(pdfPath, settings);
 
         var garbageDays = new List<GarbageDay>();
@@ -40,11 +43,14 @@ public class PadovaGarbageScraper : IGarbageScraper
             // var outputPath = Path.Combine("Output", $"Page_{pageNumber}.png");
             // Directory.CreateDirectory("Output"); // Assicurati che la directory esista
             // image.Write(outputPath);
+            logger.LogInformation("Processing page {PageNumber} of the PDF", pageNumber);
             
             var pixels = image.GetPixels();
 
             for (var i = 0; i < 31; i++)
             {
+                logger.LogInformation("Processing day {Day} on page {PageNumber}", i + 1, pageNumber);
+                
                 var y01 = coordinateY + (i * 105);
                 var x01 = coordinateX;
 

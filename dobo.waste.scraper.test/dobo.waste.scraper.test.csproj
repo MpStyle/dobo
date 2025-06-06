@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\dobo.waste.collection\dobo.waste.collection.csproj" />
+      <ProjectReference Include="..\dobo.waste.scraper\dobo.waste.scraper.csproj" />
     </ItemGroup>
 
 </Project>

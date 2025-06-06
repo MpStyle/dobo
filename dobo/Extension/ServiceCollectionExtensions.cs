@@ -1,7 +1,11 @@
 using System.Reflection;
-using dobo.MessageBuilder;
+using dobo.core.Extensions;
 using dobo.telegram.Extension;
 using dobo.TelegramCommand;
+using dobo.waste.collection;
+using dobo.waste.collection.Entities;
+using dobo.waste.collection.MessageBuilder;
+using dobo.waste.collection.Padova;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
@@ -14,7 +18,8 @@ public static class ServiceCollectionExtensions
         services
             .AddTelegramCommandHandlers(Assembly.GetAssembly(typeof(HelpCommand)))
             .AddTelegramBotClient()
-            .AddSingleton<GarbageMessageBuilder>();
+            .AddSingleton<GarbageMessageBuilder>()
+            .AddGarbageScraper();
         
         services.AddQuartz();
         services.AddQuartzHostedService(opt =>
