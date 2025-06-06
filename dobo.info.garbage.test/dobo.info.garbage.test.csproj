@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
+        <RootNamespace>dobo.waste.scraper.test</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\dobo.waste.scraper\dobo.waste.scraper.csproj" />
+      <ProjectReference Include="..\dobo.info.garbage\dobo.info.garbage.csproj" />
     </ItemGroup>
 
 </Project>

@@ -13,7 +13,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\dobo.core\dobo.core.csproj" />
-      <ProjectReference Include="..\dobo.waste.scraper\dobo.waste.scraper.csproj" />
+      <ProjectReference Include="..\dobo.info.garbage\dobo.info.garbage.csproj" />
     </ItemGroup>
 
 </Project>
