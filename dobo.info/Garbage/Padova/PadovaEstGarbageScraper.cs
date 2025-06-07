@@ -1,8 +1,9 @@
+using dobo.waste.collection;
 using dobo.waste.collection.Entities;
 using ImageMagick;
 using Microsoft.Extensions.Logging;
 
-namespace dobo.waste.collection.Padova;
+namespace dobo.info.Garbage.Padova;
 
 public class PadovaEstGarbageScraper(ILogger<PadovaEstGarbageScraper> logger) : IGarbageScraper
 {

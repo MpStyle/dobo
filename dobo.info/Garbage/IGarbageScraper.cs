@@ -1,6 +1,6 @@
 using dobo.waste.collection.Entities;
 
-namespace dobo.waste.collection;
+namespace dobo.info.Garbage;
 
 public interface IGarbageScraper
 {

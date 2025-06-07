@@ -20,6 +20,7 @@ using var host = builder.Build();
 RunBot(host.Services, "DoBo - Lifetime");
 
 await PadovaEstGroupGarbageJob.ScheduleJob(host);
+await PadovaEstGroupWeatherJob.ScheduleJob(host);
 
 await host.RunAsync();
 

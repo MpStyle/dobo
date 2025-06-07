@@ -1,6 +1,6 @@
 using dobo.core.Book;
 using dobo.core.Extensions;
-using dobo.waste.collection.MessageBuilder;
+using dobo.info.Garbage.MessageBuilder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,7 +19,7 @@ public class PadovaEstGroupGarbageJob(
 
     public async Task Execute(IJobExecutionContext context)
     {
-        var message = garbageMessageBuilder.Build(string.Empty);
+        var message = await garbageMessageBuilder.Build(string.Empty);
         if (message == null)
         {
             return;

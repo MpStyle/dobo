@@ -1,4 +1,3 @@
-using System.Reflection;
 using dobo.core.Book;
 using dobo.core.Extensions;
 using dobo.telegram.Command;
@@ -10,7 +9,7 @@ using MessageHandler = dobo.telegram.Book.MessageHandler;
 
 namespace dobo.telegram.Extension;
 
-public static class IoCTelegramBotClientExtension
+public static class IoCTelegramBotExtensions
 {
     public static IServiceCollection AddTelegramBotClient(this IServiceCollection services)
     {
@@ -44,32 +43,25 @@ public static class IoCTelegramBotClientExtension
         return services;
     }
 
-    public static IServiceCollection AddTelegramCommandHandlers(this IServiceCollection services, Assembly assembly)
+    public static IServiceCollection AddTelegramCommandHandlers(this IServiceCollection services)
     {
-        return services.AddTelegramCommandHandlers([assembly]);
-    }
-
-    public static IServiceCollection AddTelegramCommandHandlers(this IServiceCollection services, Assembly[] assemblies)
-    {
-        return services.InitServiceCollection<ITelegramCommandHandler>(assemblies);
-    }
-
-    private static IServiceCollection InitServiceCollection<T>(this IServiceCollection services,
-        Assembly[] assemblies)
-    {
-        var handlers = assemblies.GetImplementationTypes<T>();
+        var telegramCommandType = typeof(ITelegramCommandHandler);
+        var handlers = telegramCommandType.Assembly.GetImplementationTypes<ITelegramCommandHandler>();
         var helpCommandHandlerExists = false;
 
         foreach (var handler in handlers)
         {
-            if (typeof(IHelpCommandHandler).IsAssignableFrom(handler) && helpCommandHandlerExists == false)
+            if (typeof(IHelpCommandHandler).IsAssignableFrom(handler))
             {
-                services.AddSingleton(typeof(IHelpCommandHandler), handler);
-                helpCommandHandlerExists = true;
+                if (helpCommandHandlerExists == false)
+                {
+                    services.AddSingleton(typeof(IHelpCommandHandler), handler);
+                    helpCommandHandlerExists = true;
+                }
             }
             else
             {
-                services.Add(new ServiceDescriptor(typeof(T), handler, ServiceLifetime.Singleton));
+                services.Add(new ServiceDescriptor(telegramCommandType, handler, ServiceLifetime.Singleton));
             }
         }
 

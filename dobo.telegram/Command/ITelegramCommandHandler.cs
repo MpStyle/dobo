@@ -7,5 +7,5 @@ public interface ITelegramCommandHandler
 {
     string Command { get; }
     string Description { get; }
-    string? Handle(string? args, Message msg, UpdateType type);
+    Task<string?> Handle(string? args, Message msg, UpdateType type);
 }

@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dobo", "dobo\dobo.csproj", "{67C95DEB-2777-4089-950D-8D9D96A9974E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dobo.info.garbage", "dobo.info.garbage\dobo.info.garbage.csproj", "{1CD39472-710D-4E29-B4C6-AEAC71B52EA3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dobo.telegram", "dobo.telegram\dobo.telegram.csproj", "{70A2494E-E867-48BB-B5E1-F429BFF3482C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dobo.core", "dobo.core\dobo.core.csproj", "{B8FA9F30-0938-43E7-B0CD-C6EB86406B12}"
@@ -16,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dobo.scheduler", "dobo.scheduler\dobo.scheduler.csproj", "{CE0CA4A7-7BF4-42B2-8DB3-89D7CC95E4A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dobo.info.garbage.test", "dobo.info.garbage.test\dobo.info.garbage.test.csproj", "{A82B3E9F-AD9C-4116-9CBB-B68274C40DB5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dobo.info", "dobo.info\dobo.info.csproj", "{8BE09DF2-112A-4887-8A81-D08725F34B13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +26,6 @@ Global
 		{67C95DEB-2777-4089-950D-8D9D96A9974E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67C95DEB-2777-4089-950D-8D9D96A9974E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67C95DEB-2777-4089-950D-8D9D96A9974E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1CD39472-710D-4E29-B4C6-AEAC71B52EA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1CD39472-710D-4E29-B4C6-AEAC71B52EA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1CD39472-710D-4E29-B4C6-AEAC71B52EA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1CD39472-710D-4E29-B4C6-AEAC71B52EA3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{030E6D63-3F8D-4C22-AD0E-D950C22B9033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{030E6D63-3F8D-4C22-AD0E-D950C22B9033}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{030E6D63-3F8D-4C22-AD0E-D950C22B9033}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,9 +42,9 @@ Global
 		{CE0CA4A7-7BF4-42B2-8DB3-89D7CC95E4A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE0CA4A7-7BF4-42B2-8DB3-89D7CC95E4A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE0CA4A7-7BF4-42B2-8DB3-89D7CC95E4A7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A82B3E9F-AD9C-4116-9CBB-B68274C40DB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A82B3E9F-AD9C-4116-9CBB-B68274C40DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A82B3E9F-AD9C-4116-9CBB-B68274C40DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A82B3E9F-AD9C-4116-9CBB-B68274C40DB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BE09DF2-112A-4887-8A81-D08725F34B13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BE09DF2-112A-4887-8A81-D08725F34B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BE09DF2-112A-4887-8A81-D08725F34B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BE09DF2-112A-4887-8A81-D08725F34B13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

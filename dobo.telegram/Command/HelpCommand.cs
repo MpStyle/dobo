@@ -1,8 +1,7 @@
-using dobo.telegram.Command;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace dobo.TelegramCommand;
+namespace dobo.telegram.Command;
 
 public class HelpCommand : IHelpCommandHandler
 {
@@ -20,7 +19,7 @@ public class HelpCommand : IHelpCommandHandler
         }
     }
 
-    public string Handle(string args, Message msg, UpdateType type)
+    public async Task<string> Handle(string args, Message msg, UpdateType type)
     {
         return "Available commands:\n" +
                $"{string.Join("\n", namesDescriptions.Select(nd => $"/{nd.Item1} - {nd.Item2}"))}";

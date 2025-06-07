@@ -1,15 +1,16 @@
 using System.Reflection;
 using dobo.core.Extensions;
-using dobo.waste.collection.Padova;
+using dobo.info.Garbage.Padova;
+using dobo.waste.collection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace dobo.waste.collection.Entities;
+namespace dobo.info.Garbage.Entities;
 
 public static class WasteCollectionExtensions
 {
     public static IServiceCollection AddGarbageScraper(this IServiceCollection services)
     {
-        var garbageScraper = Assembly.GetAssembly(typeof(PadovaEstGarbageScraper))
+        var garbageScraper = typeof(PadovaEstGarbageScraper).Assembly
             .GetImplementationTypes<IGarbageScraper>();
         foreach (var scraper in garbageScraper)
         {

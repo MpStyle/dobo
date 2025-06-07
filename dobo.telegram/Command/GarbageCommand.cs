@@ -1,4 +1,4 @@
-using dobo.waste.collection.MessageBuilder;
+using dobo.info.Garbage.MessageBuilder;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -9,9 +9,9 @@ public class GarbageCommand(GarbageMessageBuilder garbageMessageBuilder) : ITele
     public string Command { get; } = "garbage";
     public string Description { get; } = "Get information about when to take out the trash";
 
-    public string Handle(string args, Message msg, UpdateType type)
+    public async Task<string> Handle(string args, Message msg, UpdateType type)
     {
-        var message = garbageMessageBuilder.Build(args);
+        var message = await garbageMessageBuilder.Build(args);
         return string.IsNullOrEmpty(message) ? "No garbage for tomorrow" : message;
     }
 }

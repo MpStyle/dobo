@@ -16,7 +16,7 @@ public partial class MessageHandler
     private static partial Regex CommandRegex();
 
     private readonly TelegramBotClient bot;
-    private readonly Dictionary<string, Func<string, Message, UpdateType, string>> commandHandlers = new();
+    private readonly Dictionary<string, Func<string, Message, UpdateType, Task<string?>>> commandHandlers = new();
     private readonly ILogger<MessageHandler> logger;
     private readonly string[] receipts;
 
@@ -63,7 +63,7 @@ public partial class MessageHandler
             if (commandHandlers.TryGetValue(command, out var handler))
             {
                 var args = msg.Text.Replace($"/{command}", string.Empty).Trim();
-                var responseText = handler(args, msg, type);
+                var responseText = await handler(args, msg, type);
 
                 if (string.IsNullOrEmpty(responseText) == false)
                 {
