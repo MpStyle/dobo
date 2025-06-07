@@ -1,4 +1,3 @@
-using dobo.waste.collection;
 using dobo.waste.collection.Entities;
 using ImageMagick;
 using Microsoft.Extensions.Logging;
@@ -22,7 +21,14 @@ public class PadovaEstGarbageScraper(ILogger<PadovaEstGarbageScraper> logger) : 
 
     public IEnumerable<GarbageDay> Run()
     {
-        var pdfPath = Path.Combine("Padova", "Q3_2025_dr_calendario_web.pdf");
+        var pdfPath = Path.Combine("Garbage", "Padova", "Q3_2025_dr_calendario_web.pdf");
+
+        if (File.Exists(pdfPath) == false)
+        {
+            logger.LogError("PDF file not found: {PdfPath}", pdfPath);
+            return [];
+        }
+
         var (coordinateX, coordinateY) = (x: 925, y: 885);
         var settings = new MagickReadSettings
         {
@@ -32,7 +38,7 @@ public class PadovaEstGarbageScraper(ILogger<PadovaEstGarbageScraper> logger) : 
         };
 
         using var images = new MagickImageCollection();
-        
+
         logger.LogInformation("Reading PDF file: {PdfPath}", pdfPath);
         images.Read(pdfPath, settings);
 
@@ -45,13 +51,13 @@ public class PadovaEstGarbageScraper(ILogger<PadovaEstGarbageScraper> logger) : 
             // Directory.CreateDirectory("Output"); // Assicurati che la directory esista
             // image.Write(outputPath);
             logger.LogInformation("Processing page {PageNumber} of the PDF", pageNumber);
-            
+
             var pixels = image.GetPixels();
 
             for (var i = 0; i < 31; i++)
             {
                 logger.LogInformation("Processing day {Day} on page {PageNumber}", i + 1, pageNumber);
-                
+
                 var y01 = coordinateY + (i * 105);
                 var x01 = coordinateX;
 
@@ -63,9 +69,9 @@ public class PadovaEstGarbageScraper(ILogger<PadovaEstGarbageScraper> logger) : 
                 var pixel01 = pixels.GetPixel(x01, y01);
                 var color01 = pixel01.ToColor()?.ToString();
                 var type01 = ColorToGarbageType.GetValueOrDefault(color01 ?? string.Empty, GarbageType.None);
-                
+
                 // ---
-                
+
                 var y02 = y01;
                 var x02 = x01 + 165;
 
@@ -79,7 +85,7 @@ public class PadovaEstGarbageScraper(ILogger<PadovaEstGarbageScraper> logger) : 
                 var type02 = ColorToGarbageType.GetValueOrDefault(color02 ?? string.Empty, GarbageType.None);
 
                 // ---
-                var types= new[] { type01, type02 };
+                var types = new[] {type01, type02};
                 var garbageDay = new GarbageDay
                 {
                     Year = 2025,
@@ -87,7 +93,7 @@ public class PadovaEstGarbageScraper(ILogger<PadovaEstGarbageScraper> logger) : 
                     Day = i + 1,
                     Types = types.Where(t => t != GarbageType.None).ToArray()
                 };
-                
+
                 garbageDays.Add(garbageDay);
             }
 
