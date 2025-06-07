@@ -16,6 +16,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dobo.scheduler", "dobo.sche
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dobo.info", "dobo.info\dobo.info.csproj", "{8BE09DF2-112A-4887-8A81-D08725F34B13}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipeline", "pipeline", "{5D94E3BF-3B28-4D0A-A378-681276AAFCFC}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\publish.yml = .github\workflows\publish.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,5 +51,8 @@ Global
 		{8BE09DF2-112A-4887-8A81-D08725F34B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BE09DF2-112A-4887-8A81-D08725F34B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BE09DF2-112A-4887-8A81-D08725F34B13}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5D94E3BF-3B28-4D0A-A378-681276AAFCFC} = {CF64302B-C7DB-47DD-A0AD-480080FF501C}
 	EndGlobalSection
 EndGlobal

@@ -5,7 +5,7 @@ namespace dobo.core.Extensions;
 
 public static class ConfigurationExtensions
 {
-    public static bool GetBool(this IConfiguration configuration, string key, bool defaultValue = default)
+    public static bool GetBool(this IConfiguration configuration, string key, bool defaultValue = false)
     {
         try
         {
@@ -31,7 +31,7 @@ public static class ConfigurationExtensions
         }
     }
 
-    public static string GetString(this IConfiguration configuration, string key, string defaultValue = default)
+    public static string? GetString(this IConfiguration configuration, string key, string? defaultValue = null)
     {
         try
         {
@@ -44,8 +44,8 @@ public static class ConfigurationExtensions
         }
     }
 
-    public static string[] GetStringArray(this IConfiguration configuration, string key,
-        string[] defaultValue = default)
+    public static string[]? GetStringArray(this IConfiguration configuration, string key,
+        string[]? defaultValue = null)
     {
         try
         {
@@ -59,7 +59,7 @@ public static class ConfigurationExtensions
         }
     }
     
-    public static int[] GetIntArray(this IConfiguration configuration, string key, int[] defaultValue = default)
+    public static int[]? GetIntArray(this IConfiguration configuration, string key, int[]? defaultValue = null)
     {
         try
         {
@@ -73,7 +73,7 @@ public static class ConfigurationExtensions
         }
     }
     
-    public static long[] GetLongArray(this IConfiguration configuration, string key, long[] defaultValue = default)
+    public static long[]? GetLongArray(this IConfiguration configuration, string key, long[]? defaultValue = null)
     {
         try
         {

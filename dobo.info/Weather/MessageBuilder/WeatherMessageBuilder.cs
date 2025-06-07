@@ -5,6 +5,7 @@ using dobo.core.Extensions;
 using dobo.info.MessageBuilder;
 using dobo.info.weather.Entity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace dobo.info.weather.MessageBuilder;
 
@@ -12,22 +13,31 @@ public class WeatherMessageBuilder : IMessageBuilder
 {
     private readonly HttpClient httpClient = new();
     private readonly Dictionary<string, (string Latitude, string Longitude)> cityCoordinates = new();
-    private readonly string defaultCity;
+    private readonly string? defaultCity;
+    private readonly ILogger<WeatherMessageBuilder> logger;
 
-    public WeatherMessageBuilder(IConfiguration configuration)
+    public WeatherMessageBuilder(IConfiguration configuration, ILogger<WeatherMessageBuilder> logger)
     {
+        this.logger = logger;
+        
         this.cityCoordinates.Add("Padova", ("45.408", "11.8859"));
         this.cityCoordinates.Add("Padova Est", ("45.408", "11.8859"));
 
         this.defaultCity = configuration.GetString(AppSettingsKey.WasteCollectionDefaultCity);
     }
 
-    public async Task<string?> Build(string args)
+    public async Task<string?> Build(string? args)
     {
         var city = args?.Trim().ToLowerInvariant().Split(" ").FirstOrDefault();
         if (string.IsNullOrEmpty(city))
         {
             city = defaultCity;
+        }
+
+        if (city.IsNullOrEmpty())
+        {
+            logger.LogWarning("City is null or empty. Using default city: {DefaultCity}", defaultCity);
+            return null;
         }
 
         if (cityCoordinates.ContainsKey(city) == false)

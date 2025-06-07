@@ -15,7 +15,7 @@ public class PadovaEstGroupGarbageJob(
     GarbageMessageBuilder garbageMessageBuilder,
     IConfiguration configuration) : IJob
 {
-    private readonly long[] groups = configuration.GetLongArray(AppSettingsKey.TelegramGroups);
+    private readonly long[]? groups = configuration.GetLongArray(AppSettingsKey.TelegramGroups);
 
     public async Task Execute(IJobExecutionContext context)
     {

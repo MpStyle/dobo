@@ -18,7 +18,7 @@ public partial class MessageHandler
     private readonly TelegramBotClient bot;
     private readonly Dictionary<string, Func<string, Message, UpdateType, Task<string?>>> commandHandlers = new();
     private readonly ILogger<MessageHandler> logger;
-    private readonly string[] receipts;
+    private readonly string[]? receipts;
 
     public MessageHandler(IConfiguration configuration, TelegramBotClient bot,
         IEnumerable<ITelegramCommandHandler> telegramCommandHandlers, IHelpCommandHandler helpCommand,

@@ -1,5 +1,6 @@
 using dobo.core.Book;
 using dobo.core.Extensions;
+using dobo.info.Garbage.Entities;
 using dobo.info.MessageBuilder;
 using dobo.waste.collection.Entities;
 using Microsoft.Extensions.Configuration;
@@ -12,9 +13,9 @@ public class GarbageMessageBuilder(
 ) : IMessageBuilder
 {
     private readonly Dictionary<string, GarbageDay[]> garbageDaysCache = new();
-    private readonly string defaultCity = configuration.GetString(AppSettingsKey.WasteCollectionDefaultCity);
+    private readonly string? defaultCity = configuration.GetString(AppSettingsKey.WasteCollectionDefaultCity);
 
-    public async Task<string?> Build(string args)
+    public async Task<string?> Build(string? args)
     {
         var city = args?.Trim().ToLowerInvariant().Split(" ").FirstOrDefault();
         if (string.IsNullOrEmpty(city))

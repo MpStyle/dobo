@@ -1,4 +1,6 @@
-namespace dobo.waste.collection.Entities;
+using dobo.waste.collection.Entities;
+
+namespace dobo.info.Garbage.Entities;
 
 public record GarbageDay
 {

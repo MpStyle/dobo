@@ -1,3 +1,4 @@
+using dobo.info.Garbage.Entities;
 using dobo.waste.collection.Entities;
 using ImageMagick;
 using Microsoft.Extensions.Logging;
@@ -29,7 +30,7 @@ public class PadovaEstGarbageScraper(ILogger<PadovaEstGarbageScraper> logger) : 
             return [];
         }
 
-        var (coordinateX, coordinateY) = (x: 925, y: 885);
+        var (coordinateX, coordinateY) = (925, 885);
         var settings = new MagickReadSettings
         {
             Density = new Density(300, 300),

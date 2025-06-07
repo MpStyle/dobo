@@ -19,7 +19,7 @@ public class HelpCommand : IHelpCommandHandler
         }
     }
 
-    public async Task<string> Handle(string args, Message msg, UpdateType type)
+    public async Task<string?> Handle(string? args, Message msg, UpdateType type)
     {
         return "Available commands:\n" +
                $"{string.Join("\n", namesDescriptions.Select(nd => $"/{nd.Item1} - {nd.Item2}"))}";

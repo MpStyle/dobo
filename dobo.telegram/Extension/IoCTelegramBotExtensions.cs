@@ -17,6 +17,11 @@ public static class IoCTelegramBotExtensions
             .AddSingleton(sp =>
             {
                 var token = sp.GetRequiredService<IConfiguration>().GetString(AppSettingsKey.TelegramToken);
+                if (token.IsNullOrEmpty())
+                {
+                    throw new Exception("Telegram token not configured");
+                }
+                
                 var bot = new TelegramBotClient(token);
 
                 var commands = sp.GetServices<ITelegramCommandHandler>();
@@ -28,11 +33,14 @@ public static class IoCTelegramBotExtensions
                 });
 
                 var telegramCommandList = telegramCommands.ToList();
-                telegramCommandList.Add(new BotCommand
+                if (helpCommand != null)
                 {
-                    Command = helpCommand.Command,
-                    Description = helpCommand.Description
-                });
+                    telegramCommandList.Add(new BotCommand
+                    {
+                        Command = helpCommand.Command,
+                        Description = helpCommand.Description
+                    });
+                }
 
                 bot.SetMyCommands(telegramCommandList);
 

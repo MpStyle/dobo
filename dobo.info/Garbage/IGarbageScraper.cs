@@ -1,3 +1,4 @@
+using dobo.info.Garbage.Entities;
 using dobo.waste.collection.Entities;
 
 namespace dobo.info.Garbage;

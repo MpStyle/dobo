@@ -13,7 +13,10 @@ Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
 
-builder.Configuration.AddJsonFile("appsettings.json", optional: false);
+var environment = builder.Environment.IsDevelopment() ? "Development" : "Production";
+
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+builder.Configuration.AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true);
 builder.Services.Init();
 using var host = builder.Build();
 

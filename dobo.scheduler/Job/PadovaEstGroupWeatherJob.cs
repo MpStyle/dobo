@@ -15,7 +15,7 @@ public class PadovaEstGroupWeatherJob(
     WeatherMessageBuilder weatherMessageBuilder,
     IConfiguration configuration) : IJob
 {
-    private readonly long[] groups = configuration.GetLongArray(AppSettingsKey.TelegramGroups);
+    private readonly long[]? groups = configuration.GetLongArray(AppSettingsKey.TelegramGroups);
 
     public async Task Execute(IJobExecutionContext context)
     {
