@@ -34,7 +34,7 @@ jobs:
 
       # Upload the ZIP archive as an artifact
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cli-app-linux-arm
           path: cli-app-linux-arm.zip
