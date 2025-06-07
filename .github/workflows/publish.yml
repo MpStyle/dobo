@@ -1,0 +1,65 @@
+name: Build and Release CLI for Raspberry Pi
+
+on:
+  push:
+    tags:
+      - 'v*' # Trigger for tags starting with "v"
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Setup .NET
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.x'
+
+      # Restore dependencies
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # Build and publish for Raspberry Pi
+      - name: Publish for Raspberry Pi
+        run: dotnet publish -c Release -r linux-arm -o ./publish --self-contained true
+
+      # Create a ZIP archive for distribution
+      - name: Create release artifact
+        run: zip -r cli-app-linux-arm.zip ./publish
+
+      # Upload the ZIP archive as an artifact
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: cli-app-linux-arm
+          path: cli-app-linux-arm.zip
+
+      # Create a GitHub release
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: |
+            This is a new version of the CLI application for Raspberry Pi.
+            Version: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+
+      # Upload the ZIP file to the release
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: ./cli-app-linux-arm.zip
+          asset_name: cli-app-linux-arm.zip
+          asset_content_type: application/zip
