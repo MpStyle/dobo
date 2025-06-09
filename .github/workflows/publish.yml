@@ -29,11 +29,11 @@ jobs:
 
       # Build and publish for Raspberry Pi
       - name: Publish for Raspberry Pi
-        run: dotnet publish dobo/dobo.csproj -c Release -r linux-arm -o ./publish -p:PublishSingleFile=true --self-contained true
+        run: dotnet publish dobo/dobo.csproj -c Release -r linux-arm -o ./publish -p:DebugSymbols=false -p:PublishSingleFile=true --self-contained true
 
       # Create a ZIP archive for distribution
       - name: Create release artifact
-        run: mv ./publish ./dobo && zip -r cli-app-linux-arm.zip ./dobo
+        run: mv ./dobo/publish ./dobo/dobo && zip -r cli-app-linux-arm.zip ./dobo/dobo
 
       # Upload the ZIP archive as an artifact
       - name: Upload artifact
