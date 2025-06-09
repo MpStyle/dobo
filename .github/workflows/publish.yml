@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*' # Trigger for tags starting with "v"
 
+env:
+  GITHUB_TOKEN: ${{ secrets.CUSTOM_TOKEN }}
+
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
