@@ -2,8 +2,6 @@ using dobo.core.Book;
 using dobo.core.Extensions;
 using dobo.info.Garbage.MessageBuilder;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Quartz;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -32,9 +30,8 @@ public class PadovaEstGroupGarbageJob(
         }
     }
     
-    public static async Task ScheduleJob(IHost host)
+    public static async Task ScheduleJob(ISchedulerFactory schedulerFactory)
     {
-        var schedulerFactory = host.Services.GetRequiredService<ISchedulerFactory>();
         var scheduler = await schedulerFactory.GetScheduler();
 
         const string garbageJobName = nameof(PadovaEstGroupGarbageJob);
@@ -46,7 +43,6 @@ public class PadovaEstGroupGarbageJob(
         var trigger = TriggerBuilder.Create()
             .WithIdentity($"{garbageJobName}Trigger", $"{garbageJobName}TriggerGroup")
             .StartNow()
-            //.WithCronSchedule("29 17 * * * ?")
             .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(18, 50))
             .Build();
 

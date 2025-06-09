@@ -3,6 +3,7 @@ using dobo.scheduler.Job;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Quartz;
 using Serilog;
 using Telegram.Bot;
 using MessageHandler = dobo.telegram.Book.MessageHandler;
@@ -20,8 +21,9 @@ using var host = builder.Build();
 
 RunBot(host.Services, "DoBo - Lifetime");
 
-await PadovaEstGroupGarbageJob.ScheduleJob(host);
-await PadovaEstGroupWeatherJob.ScheduleJob(host);
+var schedulerFactory = host.Services.GetRequiredService<ISchedulerFactory>();
+await PadovaEstGroupGarbageJob.ScheduleJob(schedulerFactory);
+await PadovaEstGroupWeatherJob.ScheduleJob(schedulerFactory);
 
 await host.RunAsync();
 

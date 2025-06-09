@@ -2,8 +2,6 @@ using dobo.core.Book;
 using dobo.core.Extensions;
 using dobo.info.weather.MessageBuilder;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Quartz;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -32,9 +30,8 @@ public class PadovaEstGroupWeatherJob(
         }
     }
     
-    public static async Task ScheduleJob(IHost host)
+    public static async Task ScheduleJob(ISchedulerFactory schedulerFactory)
     {
-        var schedulerFactory = host.Services.GetRequiredService<ISchedulerFactory>();
         var scheduler = await schedulerFactory.GetScheduler();
 
         const string garbageJobName = nameof(PadovaEstGroupWeatherJob);
