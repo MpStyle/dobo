@@ -33,7 +33,7 @@ jobs:
 
       # Create a ZIP archive for distribution
       - name: Create release artifact
-        run: mv ./dobo/publish ./dobo && zip -r cli-app-linux-arm.zip ./dobo/dobo
+        run: cd dobo/publish && zip -r ../../cli-app-linux-arm.zip ./*
 
       # Upload the ZIP archive as an artifact
       - name: Upload artifact
