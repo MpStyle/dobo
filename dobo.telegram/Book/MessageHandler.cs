@@ -63,19 +63,27 @@ public partial class MessageHandler
             if (commandHandlers.TryGetValue(command, out var handler))
             {
                 var args = msg.Text.Replace($"/{command}", string.Empty).Trim();
-                var responseText = await handler(args, msg, type);
-
-                if (string.IsNullOrEmpty(responseText) == false)
+                try
                 {
-                    await bot.SendMessage(msg.Chat, responseText);
+                    var responseText = await handler(args, msg, type);
 
-                    this.logger.LogInformation("Sent {Type} \'{ResponseText}\' in {MsgChat}", type, responseText,
-                        msg.Chat);
+                    if (string.IsNullOrEmpty(responseText) == false)
+                    {
+                        await bot.SendMessage(msg.Chat, responseText);
+
+                        this.logger.LogInformation("Sent {Type} \'{ResponseText}\' in {MsgChat}", type, responseText,
+                            msg.Chat);
+                    }
+                    else
+                    {
+                        this.logger.LogInformation("No message to send for command \'{Command}\' in {MsgChat}", command,
+                            msg.Chat);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    this.logger.LogInformation("No message to send for command \'{Command}\' in {MsgChat}", command,
-                        msg.Chat);
+                    this.logger.LogError(ex, "Error sending command \'{Command}\'", command);
+                    await bot.SendMessage(msg.Chat, "Execution of command fails");
                 }
             }
         }

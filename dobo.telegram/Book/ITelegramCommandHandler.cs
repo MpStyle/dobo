@@ -1,7 +1,7 @@
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace dobo.telegram.Command;
+namespace dobo.telegram.Book;
 
 public interface ITelegramCommandHandler
 {

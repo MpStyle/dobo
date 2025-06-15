@@ -1,5 +1,6 @@
 using dobo.core.Book;
 using dobo.core.Extensions;
+using dobo.telegram.Book;
 using dobo.telegram.Command;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

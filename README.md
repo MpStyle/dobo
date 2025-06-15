@@ -5,3 +5,4 @@
 - __telegram:token__
 - __telegram:receipts__
 - __wasteCollection:defaultCity__
+- __github:repo__

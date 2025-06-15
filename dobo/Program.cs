@@ -25,6 +25,16 @@ var schedulerFactory = host.Services.GetRequiredService<ISchedulerFactory>();
 await PadovaEstGroupGarbageJob.ScheduleJob(schedulerFactory);
 await PadovaEstGroupWeatherJob.ScheduleJob(schedulerFactory);
 
+// if signal "exit" is received, stop the bot gracefully
+AppDomain.CurrentDomain.ProcessExit += (s, e) =>
+{
+    Log.Information("Application is exiting. Stopping the bot...");
+    
+    // Clean up resources and stop the bot
+    
+    Log.Information("Bot stopped.");
+};
+
 await host.RunAsync();
 
 return;
